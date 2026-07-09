@@ -140,7 +140,9 @@ form?.addEventListener("submit", async (event) => {
     form.reset();
     previewText.textContent = "你的文字会先在这里预览。";
     previewPhoto.innerHTML = "<span>photo preview</span>";
-    await silentSync();
+    
+    // 不阻塞页面，后台去同步
+    silentSync();
   } catch (error) {
     setStatus(error.message || "发布失败，请稍后再试。", true);
   } finally {
@@ -277,7 +279,7 @@ function createMemoryCard(entry) {
     openEmojiPicker(replyEmojiBtn, replyInput);
   });
 
-  // 提交事件监听器
+  // --- 👇 修复卡死Bug：重新设计了发送提交逻辑 ---
   replyBox.addEventListener("submit", async (e) => {
     e.preventDefault();
     const btn = replyBox.querySelector(".reply-btn");
@@ -290,20 +292,25 @@ function createMemoryCard(entry) {
     btn.disabled = true;
     btn.textContent = "发送中...";
 
-try {
+    try {
       formData.append("entryId", entry.id);
       const res = await fetch("/api/comment", { method: "POST", body: formData });
-      const data = await res.json();
       
-      if (!res.ok) throw new Error(data.error);
-      await silentSync(); 
+      // 容错处理：即使后端返回的不是标准JSON也能扛过去
+      const data = await res.json().catch(() => ({})); 
+      
+      if (!res.ok) throw new Error(data.error || "发送失败，可能是暗号不对");
+      
+      // 成功发送后立刻清空输入框，不等后台同步了！
+      replyInput.value = ""; 
 
-      // 🌟 解决卡死 Bug 的核心代码：成功后把按钮变回原样，并清空输入框
-      btn.disabled = false;
-      btn.textContent = "发送";
-      replyInput.value = ""; // 让输入框变回空白，方便下次输入
+      // 触发后台静默同步去抓取新评论，但不堵塞现在的按钮
+      silentSync(); 
+
     } catch (err) {
-      alert(err.message || "发送失败");
+      alert(err.message || "网络开了个小差，没发出去哦");
+    } finally {
+      // 🌟 终极保险：不管上面是报错了还是正常跑完，最后统统强制把按钮点亮！
       btn.disabled = false;
       btn.textContent = "发送";
     }
@@ -361,17 +368,21 @@ function setupDynamicCoverAndStrip(entries) {
   }
 
   // 魔法 2：封面照片 3 秒轮播
-  // 筛选出所有带照片的动态
   const photos = entries.filter(e => e.photoUrl).map(e => e.photoUrl);
   if (photos.length > 0) {
     const coverPhotoDiv = document.querySelector('.cover-photo');
+    if (!coverPhotoDiv) return;
     let currentIndex = 0;
 
-    // 立刻显示第一张照片
     coverPhotoDiv.innerHTML = `<img src="${photos[currentIndex]}" alt="cover" style="width:100%; height:100%; object-fit:cover;">`;
 
-    // 每 3 秒（3000毫秒）切换一次
-    setInterval(() => {
+    // 🌟 修复底层隐患：清除旧的定时器，防止静默刷新时产生无数个闹钟导致页面发烫卡死
+    if (window.coverInterval) {
+      clearInterval(window.coverInterval);
+    }
+
+    // 每 5 秒（5000毫秒）切换一次
+    window.coverInterval = setInterval(() => {
       currentIndex = (currentIndex + 1) % photos.length;
       // 重新生成 img 标签以触发 CSS 的 fadeIn 动画
       coverPhotoDiv.innerHTML = `<img src="${photos[currentIndex]}" alt="cover" style="width:100%; height:100%; object-fit:cover;">`;
