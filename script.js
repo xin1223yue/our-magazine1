@@ -290,13 +290,18 @@ function createMemoryCard(entry) {
     btn.disabled = true;
     btn.textContent = "发送中...";
 
-    try {
+try {
       formData.append("entryId", entry.id);
       const res = await fetch("/api/comment", { method: "POST", body: formData });
       const data = await res.json();
       
       if (!res.ok) throw new Error(data.error);
-      await silentSync();
+      await silentSync(); 
+
+      // 🌟 解决卡死 Bug 的核心代码：成功后把按钮变回原样，并清空输入框
+      btn.disabled = false;
+      btn.textContent = "发送";
+      replyInput.value = ""; // 让输入框变回空白，方便下次输入
     } catch (err) {
       alert(err.message || "发送失败");
       btn.disabled = false;
