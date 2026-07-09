@@ -1,14 +1,15 @@
 # Our Little Magazine 💌
-<img width="2740" height="1546" alt="image" src="https://github.com/user-attachments/assets/bd83ad1f-5808-48cf-951b-50d448347fea" />
-<img width="2744" height="1546" alt="image" src="https://github.com/user-attachments/assets/5aa463cf-606e-449e-80d5-e9f4ed4a0f7c" />
-<img width="2748" height="1546" alt="image" src="https://github.com/user-attachments/assets/40de0dd0-e5eb-49ba-86c4-47588146c822" />
-<img width="2744" height="1546" alt="image" src="https://github.com/user-attachments/assets/8105b0ab-03a9-4c33-87d5-087ec49e47ea" />
 
 一个极简、浪漫且完全免费的情侣专属私密手账网站。
 
 没有外面的访客，没有社交媒体的点赞焦虑，只有一条永远未完待续的双人时间线。视觉风格参考了拼贴杂志感（Scrapbook Aesthetic）：粗黑边、纸纹理、拍立得相片卡和搞怪的贴纸按钮。
 
 基于纯前端原生 HTML/CSS/JS 构建，搭配 **Cloudflare Pages + Workers (Functions) + KV + R2**，无需购买服务器，利用 Cloudflare 免费额度即可实现“零成本”长久运行。
+<img width="2748" height="1548" alt="image" src="https://github.com/user-attachments/assets/b993673b-c6cc-48d9-9059-f9d9aa82cd52" />
+<img width="2740" height="1546" alt="image" src="https://github.com/user-attachments/assets/bd83ad1f-5808-48cf-951b-50d448347fea" />
+<img width="2744" height="1546" alt="image" src="https://github.com/user-attachments/assets/5aa463cf-606e-449e-80d5-e9f4ed4a0f7c" />
+<img width="2748" height="1546" alt="image" src="https://github.com/user-attachments/assets/40de0dd0-e5eb-49ba-86c4-47588146c822" />
+<img width="2744" height="1546" alt="image" src="https://github.com/user-attachments/assets/8105b0ab-03a9-4c33-87d5-087ec49e47ea" />
 
 ## ✨ 核心特性
 
