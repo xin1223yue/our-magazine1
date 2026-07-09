@@ -140,7 +140,7 @@ form?.addEventListener("submit", async (event) => {
     form.reset();
     previewText.textContent = "你的文字会先在这里预览。";
     previewPhoto.innerHTML = "<span>photo preview</span>";
-    await loadTimeline();
+    await silentSync();
   } catch (error) {
     setStatus(error.message || "发布失败，请稍后再试。", true);
   } finally {
@@ -296,7 +296,7 @@ function createMemoryCard(entry) {
       const data = await res.json();
       
       if (!res.ok) throw new Error(data.error);
-      await loadTimeline(); 
+      await silentSync();
     } catch (err) {
       alert(err.message || "发送失败");
       btn.disabled = false;
@@ -433,3 +433,71 @@ function compressImage(file, maxWidth = 1600, maxHeight = 1600, quality = 0.8) {
 
 previewDate.textContent = formatDate(new Date().toISOString());
 loadTimeline();
+
+// --- 实时交互：静默同步魔法 ---
+async function silentSync() {
+  try {
+    const response = await fetch("/api/timeline", {
+      headers: { Accept: "application/json" }
+    });
+    if (!response.ok) return;
+    const data = await response.json();
+    const newEntries = Array.isArray(data.entries) ? data.entries : [];
+
+    newEntries.forEach(entry => {
+      const card = document.getElementById(`entry-${entry.id}`);
+      
+      // 1. 如果发现了全新的动态（之前页面上没有的）
+      if (!card) {
+        const newCard = createMemoryCard(entry);
+        newCard.style.animation = "fadeIn 0.5s ease-out"; // 加个渐显动画
+        
+        // 移除空状态提示（如果有的话）
+        const emptyState = timeline.querySelector('.empty-state');
+        if(emptyState) emptyState.remove();
+        
+        // 把新动态插到最前面
+        timeline.insertBefore(newCard, timeline.firstChild);
+      } 
+      // 2. 如果动态已经存在，检查有没有新评论
+      else {
+        const commentsWrap = card.querySelector('.comments-wrap');
+        const existingCommentsCount = commentsWrap.querySelectorAll('.comment-row').length;
+        const newCommentsCount = entry.comments ? entry.comments.length : 0;
+
+        // 如果后台的评论数比当前页面多，说明有新消息！
+        if (newCommentsCount > existingCommentsCount) {
+          // 只把新增的那几条评论抽出来
+          const commentsToAdd = entry.comments.slice(existingCommentsCount);
+          
+          commentsToAdd.forEach(c => {
+            const cRow = document.createElement("div");
+            cRow.className = "comment-row";
+            const avatarHTML = c.authorAvatar.length > 5 && c.authorAvatar.startsWith("http")
+              ? `<img src="${c.authorAvatar}" class="c-avatar-img">` 
+              : `<span class="c-avatar-emoji">${c.authorAvatar}</span>`;
+
+            cRow.innerHTML = `
+              <div class="c-avatar">${avatarHTML}</div>
+              <div class="c-content">
+                <span class="c-name">${c.authorName}</span>
+                <span class="c-text">${c.text}</span>
+              </div>
+            `;
+            // 给新消息加个轻微的弹出动画
+            cRow.style.animation = "fadeIn 0.5s ease-out";
+            commentsWrap.append(cRow);
+          });
+        }
+      }
+    });
+    
+    // 顺便更新顶部封面轮播的引语数据
+    setupDynamicCoverAndStrip(newEntries);
+  } catch (err) {
+    // 静默失败，不打扰用户，等下一次轮询
+  }
+}
+
+// 设定每 8 秒钟偷偷同步一次（每天就算一直开着网页也绝对不会超出 10 万次的免费额度）
+setInterval(silentSync, 8000);
