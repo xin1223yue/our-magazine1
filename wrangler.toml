@@ -1,0 +1,10 @@
+name = "our-magazine"
+compatibility_date = "2026-07-09"
+
+[[kv_namespaces]]
+binding = "MY_KV"
+id = "YOUR_KV_NAMESPACE_ID_HERE"
+
+[[r2_buckets]]
+binding = "MY_BUCKET"
+bucket_name = "couple-photos"

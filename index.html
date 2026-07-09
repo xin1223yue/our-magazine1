@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Two-person private love journal with photos, notes, and a shared timeline.">
+    <title>Our Little Magazine</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <div class="top-note">
+      <span>只给我们两个人看的小站</span>
+      <button class="note-close" type="button" aria-label="隐藏顶部提示">x</button>
+    </div>
+
+    <header class="site-header" aria-label="站点导航">
+      <a class="brand" href="#top" aria-label="回到首页">us, archived</a>
+      <nav class="nav-links" aria-label="页面分区">
+        <a href="#letter">Letter</a>
+        <a href="#upload">Post</a>
+        <a href="#timeline-wrap">Timeline</a>
+      </nav>
+      <a class="header-pill" href="#upload">写一条</a>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-rail" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <div class="hero-copy">
+          <p class="eyebrow">private scrapbook / since the first heartbeat</p>
+          <h1 id="hero-title">A tiny website for our ordinary, ridiculous, very real love.</h1>
+          <p class="hero-text">
+            收集我们沿途掉落的鸡毛蒜皮，把它们装订成册。
+            这里没有外面的访客，没有社交媒体的点赞，只有我和你，还有一本永远未完待续的私人刊物。
+          </p>
+          <div class="hero-actions">
+            <a class="sticker-button" href="#upload">新增回忆</a>
+            <a class="plain-link" href="#timeline-wrap">翻时间线</a>
+          </div>
+        </div>
+
+        <div class="cover-board" aria-label="情侣手账封面拼贴">
+          <div class="tape tape-a"></div>
+          <div class="tape tape-b"></div>
+          <article class="cover-card cover-card-main">
+            <p>issue no. 01</p>
+            <h2>Our Little Magazine</h2>
+            <div class="cover-photo">
+              <span>put us here</span>
+            </div>
+          </article>
+          <article class="cover-card cover-card-small">
+            <span class="burst">100%</span>
+            <p>inside jokes, late-night walks, saved tickets, blurry photos.</p>
+          </article>
+          <div class="scribble">love, but make it archived</div>
+        </div>
+      </section>
+
+      <section class="intro-strip" aria-label="网站内容">
+        <div>
+          <span class="strip-label">01</span>
+          <p id="top-text-1">等待最新动态...</p>
+        </div>
+        <div>
+          <span class="strip-label">02</span>
+          <p id="top-text-2">等待最新动态...</p>
+        </div>
+        <div>
+          <span class="strip-label">03</span>
+          <p id="top-text-3">等待最新动态...</p>
+        </div>
+      </section>
+
+      <section class="letter-section" id="letter" aria-labelledby="letter-title">
+        <div class="section-label">field notes</div>
+        <div class="letter-grid">
+          <div>
+            <h2 id="letter-title">把恋爱写成一本会长大的杂志。</h2>
+          </div>
+          <div class="letter-copy">
+            <p>
+             我敲下这些代码，不是为了弄一个冷冰冰的云盘，而是想给我们搭一个不会搬家的线上营地。它更像两个人的桌面：一张蓝色纸、
+              几块胶带、随手贴上的照片、还有当天刚发生的小事。
+            </p>
+            <p>
+              以后无论是吃到好吃的、看到好看的风景，还是没来由地想说句废话，我们都可以输入暗号传到这里。每一条动态都会被钉在时间线上，慢慢长成一本世界上仅此一份的双人杂志。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="post-section" id="upload" aria-labelledby="upload-title">
+        <div class="post-panel">
+          <div class="post-heading">
+            <span class="section-label">new memory</span>
+            <h2 id="upload-title">今天想存下什么？</h2>
+          </div>
+
+          <form id="memoryForm" class="memory-form">
+            <label for="pass">暗号</label>
+            <input id="pass" name="pass" type="password" autocomplete="current-password" placeholder="输入只有我们知道的暗号" required>
+
+            <label for="desc">这一刻</label>
+            <div class="input-with-emoji">
+              <textarea id="desc" name="desc" rows="5" maxlength="500" placeholder="比如：今天在路上看到一只很像你的修勾" required></textarea>
+              <button type="button" class="emoji-btn" id="main-emoji-btn" aria-label="插入表情">😊</button>
+            </div>
+
+            <label for="file">照片</label>
+            <input id="file" name="file" type="file" accept="image/*">
+
+            <button id="submitBtn" class="sticker-button submit-button" type="submit">贴到时间线</button>
+            <p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+
+        <aside class="preview-card" aria-label="发布预览">
+          <div class="preview-photo" id="previewPhoto">
+            <span>photo preview</span>
+          </div>
+          <p class="preview-date" id="previewDate">right now</p>
+          <p id="previewText">文字会先在这里预览。</p>
+        </aside>
+      </section>
+
+      <section class="timeline-section" id="timeline-wrap" aria-labelledby="timeline-title">
+        <div class="timeline-heading">
+          <span class="section-label">live archive</span>
+          <h2 id="timeline-title">我们的时间线</h2>
+        </div>
+        <div id="timeline" class="timeline" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>made for two people who keep choosing each other.</p>
+      <a href="#top">back to top</a>
+    </footer>
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1/index.js"></script>    
+    <script src="./script.js"></script>
+  </body>
+</html>
