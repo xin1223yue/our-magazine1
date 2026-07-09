@@ -1,4 +1,8 @@
 # Our Little Magazine 💌
+<img width="2740" height="1546" alt="image" src="https://github.com/user-attachments/assets/bd83ad1f-5808-48cf-951b-50d448347fea" />
+<img width="2744" height="1546" alt="image" src="https://github.com/user-attachments/assets/5aa463cf-606e-449e-80d5-e9f4ed4a0f7c" />
+<img width="2748" height="1546" alt="image" src="https://github.com/user-attachments/assets/40de0dd0-e5eb-49ba-86c4-47588146c822" />
+<img width="2744" height="1546" alt="image" src="https://github.com/user-attachments/assets/8105b0ab-03a9-4c33-87d5-087ec49e47ea" />
 
 一个极简、浪漫且完全免费的情侣专属私密手账网站。
 
