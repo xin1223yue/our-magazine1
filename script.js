@@ -501,3 +501,35 @@ async function silentSync() {
 
 // 设定每 8 秒钟偷偷同步一次（每天就算一直开着网页也绝对不会超出 10 万次的免费额度）
 setInterval(silentSync, 8000);
+
+// --- 👇 恋爱计时器魔法 👇 ---
+// ⚠️ 请在这里填入你们的纪念日（格式：年-月-日T时:分:秒）
+const startDate = new Date("2024-04-17T00:00:00"); 
+
+const dEl = document.getElementById("t-days");
+const hEl = document.getElementById("t-hours");
+const mEl = document.getElementById("t-mins");
+const sEl = document.getElementById("t-secs");
+
+function updateTimer() {
+  const now = new Date();
+  const diff = now - startDate;
+
+  // 如果填写的日期在未来，则显示 0
+  if (diff < 0) return;
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const mins = Math.floor((diff / 1000 / 60) % 60);
+  const secs = Math.floor((diff / 1000) % 60);
+
+  if(dEl) dEl.textContent = days;
+  // 时分秒保持两位数排版（比如 05 秒）
+  if(hEl) hEl.textContent = hours.toString().padStart(2, '0');
+  if(mEl) mEl.textContent = mins.toString().padStart(2, '0');
+  if(sEl) sEl.textContent = secs.toString().padStart(2, '0');
+}
+
+// 每 1000 毫秒（1秒）自动刷新一次数字
+setInterval(updateTimer, 1000);
+updateTimer(); // 网页刚打开时立刻计算一次，防止显示 00
