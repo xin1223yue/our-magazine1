@@ -999,3 +999,66 @@ a:focus-visible {
   transform: translateY(0);
   box-shadow: 0 0 0 var(--ink);
 }
+
+/* --- 复古邮戳计时贴纸 --- */
+.time-stamp-sticker {
+  position: absolute;
+  top: 50px;
+  left: -20px; /* 悬浮在主相框左侧，有一半伸出去，打破呆板的边界 */
+  z-index: 8;
+  background: #fff;
+  border: var(--line);
+  border-radius: 4px;
+  padding: 0.5rem 0.8rem;
+  transform: rotate(-7deg); /* 随性的倾斜角 */
+  box-shadow: 4px 4px 0 var(--rose); /* 配上粉色阴影，非常可爱 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  cursor: default;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.time-stamp-sticker:hover {
+  transform: rotate(2deg) scale(1.08); /* 悬停时会转正并放大 */
+  z-index: 12;
+}
+
+.ts-label {
+  font-size: 0.65rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom: 2px dashed var(--ink); /* 虚线更有撕下来的票根感 */
+  padding-bottom: 0.2rem;
+  width: 100%;
+  text-align: center;
+  color: rgba(5, 5, 5, 0.7);
+}
+
+.ts-time {
+  font-family: "Courier New", Courier, monospace; /* 打字机等宽字体 */
+  font-weight: 900;
+  font-size: 1.15rem;
+  color: var(--grass);
+}
+
+.ts-clock {
+  display: inline-block;
+  color: var(--ink);
+  font-size: 0.95rem;
+  margin-left: 0.3rem;
+  background: var(--lemon); /* 柠檬黄的荧光笔高亮背景 */
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+}
+
+/* 移动端调整：手机上空间小，把它移到照片墙的正上方 */
+@media (max-width: 640px) {
+  .time-stamp-sticker {
+    top: -25px;
+    left: 10px;
+    transform: rotate(-3deg);
+  }
+}
